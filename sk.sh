@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+# sk is a tool for collecting and running scripts
 
 SK_SCRIPT_DIR="${SK_SCRIPT_DIR:=$HOME/sk}"
 
