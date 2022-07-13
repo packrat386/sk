@@ -6,6 +6,7 @@ _sk_usage() {
   echo "sk r(un)? <script> <args...> to run <script> with <args...>"
   echo "sk l(ist)? to show the list of availble scripts"
   echo "sk c(at)? <script> to print the named script"
+  echo "sk w(hich)? <script> to print path to the named script"
   echo "sk s(ave)? <file> to save the file as a script for sk to run (must be executable)"
   echo "sk h(elp)? to show this usage message"
   echo ""
@@ -57,6 +58,18 @@ _sk_cat() {
   cat "${SK_SCRIPT_DIR}/${to_run}"
 }
 
+_sk_which() {
+  _sk_ensure_script_dir
+
+  local to_run=$1; shift
+
+  if [ -z "${to_run}" ]; then
+    _sk_error_with_usage "script name required"; return
+  fi
+
+  echo "${SK_SCRIPT_DIR}/${to_run}"
+}
+
 _sk_save() {
   _sk_ensure_script_dir
   
@@ -88,6 +101,9 @@ sk() {
     c | cat )
       _sk_cat "$@"
       ;;
+    w | which)
+      _sk_which "$@"
+      ;;
     s | save)
       _sk_save "$@"
       ;;
@@ -102,7 +118,7 @@ sk() {
 
 _sk_completions() {
   if [ "${COMP_CWORD}" == "1" ]; then
-    COMPREPLY=($(compgen -W "list run cat save help" "${COMP_WORDS[1]}"))
+    COMPREPLY=($(compgen -W "list run cat which save help" "${COMP_WORDS[1]}"))
   else
     local base_cmd="${COMP_WORDS[1]}"
     local available_cmds=$(_sk_list)
@@ -115,7 +131,7 @@ _sk_completions() {
           COMPREPLY=($(compgen -o default -o bashdefault "${COMP_WORDS[$COMP_CWORD]}"))
         fi
         ;;
-      c | cat)
+      c | cat | w | which)
         if [ "${COMP_CWORD}" == "2" ]; then
           COMPREPLY=($(compgen -W "${available_cmds}" "${COMP_WORDS[2]}"))
         else
