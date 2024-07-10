@@ -10,6 +10,7 @@ sk
 sk r(un)? <script> <args...> to run <script> with <args...>
 sk l(ist)? to show the list of availble scripts
 sk c(at)? <script> to print the named script
+sk w(hich)? <script> to print path to the named script
 sk s(ave)? <file> to save the file as a script for sk to run (must be executable)
 sk h(elp)? to show this usage message
 
@@ -20,7 +21,19 @@ sk home page: https://github.com/packrat386/sk
 
 ### Installation
 
+#### Manual
+
 Put `sk.sh` somewhere on your computer and then `source` it. Probably somewhere in your shell rc.
+
+#### Homebrew
+
+Note: this is still pretty experimental
+
+```
+brew install packrat386/tools/sk
+```
+
+The "Caveats" segment of the information in brew will give you the invocation to add to your shell rc.
 
 ### FAQ
 
