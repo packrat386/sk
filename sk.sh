@@ -89,6 +89,10 @@ _sk_save() {
 }
 
 sk() {
+  if [ $# -eq 0 ]; then
+      _sk_error_with_usage "command required"; return
+  fi
+
   local cmd=${1}; shift
 
   case ${cmd} in
@@ -154,5 +158,10 @@ _sk_completions() {
     esac
   fi
 }
+
+if [ -n "${ZSH_VERSION}" ]; then
+  autoload -U +X compinit && compinit
+  autoload -U +X bashcompinit && bashcompinit
+fi
 
 complete -F _sk_completions sk
